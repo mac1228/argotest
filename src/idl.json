@@ -1,0 +1,318 @@
+{
+  "version": "0.1.0",
+  "name": "solana_escrow",
+  "instructions": [
+    {
+      "name": "createItemAccount",
+      "accounts": [
+        {
+          "name": "itemAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mintAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "associatedTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "market",
+          "type": "string"
+        },
+        {
+          "name": "supply",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "createOffer",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "offer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "takerTokenAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "giveAmount",
+          "type": "u64"
+        },
+        {
+          "name": "receiveAmount",
+          "type": "u64"
+        },
+        {
+          "name": "offerBump",
+          "type": "u8"
+        },
+        {
+          "name": "vaultBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "acceptOffer",
+      "accounts": [
+        {
+          "name": "offer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "taker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "takerGiveTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "takerReceiveTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializerReceiveTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "takerMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "initializerMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "takerGiveAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "cancelOffer",
+      "accounts": [
+        {
+          "name": "offer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializerTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ItemAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mintPublicKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenAccountPublicKey",
+            "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "market",
+            "type": "string"
+          },
+          {
+            "name": "seller",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Offer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initializer",
+            "type": "publicKey"
+          },
+          {
+            "name": "initializerTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "takerTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "giveAmount",
+            "type": "u64"
+          },
+          {
+            "name": "receiveAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ItemNameTooLong",
+      "msg": "The item name is too long"
+    },
+    {
+      "code": 6001,
+      "name": "MarketNameTooLong",
+      "msg": "The market name is too long"
+    }
+  ],
+  "metadata": {
+    "address": "mPDsnHtotv9hio1izTtLS5ejPokcRvXGdyYLoWDPezx"
+  }
+}
